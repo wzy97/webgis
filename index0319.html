@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>Map</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/css/esri.css">
+    <style>
+        html, body, #map {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="https://js.arcgis.com/3.23/"></script>
+    <script>
+        function showMap(){
+            var map;
+            var objS = document.getElementById("basemap");
+            var get_map = objS.options[objS.selectedIndex].value;
+            var x=parseFloat(document.getElementById("x").value.toString());
+            var y=parseFloat(document.getElementById("y").value.toString());
+            if(document.getElementById('x').value.length==0||document.getElementById('y').value.length==0||document.getElementById('zoom').value.length==0)
+            {
+                alert("请输入地图参数！");
+            }
+            else
+            {
+                require(["esri/map", "dojo/domReady!"], function(Map) {
+                    map = new Map("map", {
+                        basemap: get_map,  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
+                        center: [x, y], // longitude, latitude
+                        zoom:  document.getElementById("zoom").value
+                    });
+                });
+            }
+        }
+    </script>
+  </head>
+
+  <body>
+          <div id="menu" style="margin-left: 40%">
+              <br>
+              <div>
+                  地图类型：
+                  <select id="basemap">
+                      <option type="topo">topo</option>
+                      <option type="satellite">satellite</option>
+                      <option type="streets">streets</option>
+                      <option type="oceans">oceans</option>
+                      <option type="osm">osm</option>
+                  </select>
+              </div>
+              <br>
+          <form>
+              中心位置：
+              经度: <input type="text" id="x" size="8">
+              纬度: <input type="text" id="y" size="8"><br>
+          </form>
+              <br>
+          <form>
+              缩放尺度：<input type="text" id="zoom" size="1"><br>
+          </form>
+              <br>
+          <button onclick="showMap()" style="width: 80px;height: 30px;">
+              显示地图 !
+          </button>
+          </div>        
+          <div id="map">           
+          </div>
+      
+  </body>
+</html>
